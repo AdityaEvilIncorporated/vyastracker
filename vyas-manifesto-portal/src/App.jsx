@@ -5,6 +5,10 @@ import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
 } from "recharts";
 
+/* ----------------------------------------------------------------------- */
+/* Design tokens — values live in CSS custom properties so light/dark can  */
+/* swap without touching any component.                                   */
+/* ----------------------------------------------------------------------- */
 const T = {
   bg: "var(--bg)", panel: "var(--panel)", ink: "var(--ink)", inkSoft: "var(--inkSoft)",
   line: "var(--line)", lineStrong: "var(--lineStrong)", navy: "var(--navy)", navySoft: "var(--navySoft)",
@@ -15,15 +19,15 @@ const T = {
 const THEME_CSS = `
   .mp-root {
     --bg: #F6F4EE; --panel: #FFFFFF; --ink: #20242A; --inkSoft: #6B6E64;
-    --line: #DCD7C9; --lineStrong: #B9B29B; --navy: #274A6D; --navySoft: #EAF0F6;
-    --amber: #9C6A22; --amberSoft: #F5EBD8; --green: #33684C; --greenSoft: #E4EFE8;
-    --red: #9B3F35; --redSoft: #F5E4E1; --grey: #8B8D7A; --greySoft: #EDEBE0;
+    --line: #DCD7C9; --lineStrong: #B9B29B; --navy: #2158D6; --navySoft: #E3EDFC;
+    --amber: #E2900A; --amberSoft: #FCECC9; --green: #189A57; --greenSoft: #DBF3E5;
+    --red: #E23B30; --redSoft: #FBDFDA; --grey: #7C8074; --greySoft: #ECEAE0;
   }
   .mp-root[data-theme='dark'] {
     --bg: #15181C; --panel: #1B1F24; --ink: #ECEDE7; --inkSoft: #9A9D95;
-    --line: #2E333A; --lineStrong: #454B52; --navy: #86ABD6; --navySoft: #202E3D;
-    --amber: #D9A356; --amberSoft: #392C16; --green: #82BF9C; --greenSoft: #1C3126;
-    --red: #E2948A; --redSoft: #382320; --grey: #9A9D95; --greySoft: #23272D;
+    --line: #2E333A; --lineStrong: #454B52; --navy: #5B9DFF; --navySoft: #1B2A45;
+    --amber: #FFB443; --amberSoft: #3A2A0E; --green: #3FDB8F; --greenSoft: #123324;
+    --red: #FF6259; --redSoft: #3B1E1B; --grey: #A7AA9F; --greySoft: #23272D;
   }
 `;
 
