@@ -613,9 +613,14 @@ function AboutPage() {
 }
 
 function MethodologyPage() {
+  const weightRows = [
+    ["LOW", WEIGHTS.LOW], ["MEDIUM", WEIGHTS.MEDIUM], ["HIGH", WEIGHTS.HIGH], ["CRITICAL", WEIGHTS.CRITICAL],
+  ];
   return (
-    <div style={{ maxWidth: 580 }}>
-      <Heading>How this works</Heading>
+    <div style={{ maxWidth: 620 }}>
+      <Heading sub="Every number on this site is calculated the same way, every time. Here's exactly how.">How this works</Heading>
+
+      <Label>Statuses</Label>
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 30 }}>
         {Object.entries(STATUS).map(([k, v]) => (
           <div key={k} style={{ display: "flex", gap: 10, alignItems: "baseline" }}>
@@ -624,11 +629,75 @@ function MethodologyPage() {
           </div>
         ))}
       </div>
-      <Label>Overall progress</Label>
+
+      <Label>Each promise's own progress (0–100%)</Label>
       <p style={pText}>
-        Each promise has a weight — low, medium, high, or critical — based on how much it matters. The overall
-        number is the progress of each promise multiplied by its weight, added up, and divided by the total weight.
-        Nobody types the headline number in directly; it's always calculated from individual promises.
+        This part isn't calculated — it's a judgment call the H-Rep makes and publishes, the same way the status is
+        chosen. There's no automatic formula for "72% done" on a single promise; it's an honest estimate, and every
+        change to it is timestamped in that promise's Updates and in the activity log on the Admin page, so you can
+        see exactly when and by how much it moved.
+      </p>
+
+      <Label>Weight — how much each promise counts</Label>
+      <p style={{ ...pText, marginBottom: 14 }}>
+        Every promise is assigned one of four weights when it's added, based on how much it matters relative to the
+        others. This is what stops one trivial promise (like relabeling a laundromat table) from counting as much as
+        a critical one (like night security).
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 22, maxWidth: 260 }}>
+        {weightRows.map(([label, val]) => (
+          <div key={label} style={{ display: "flex", justifyContent: "space-between", fontSize: 13, borderBottom: `1px solid ${T.line}`, paddingBottom: 5 }}>
+            <span style={{ color: T.inkSoft }}>{label}</span>
+            <span>weight = {val}</span>
+          </div>
+        ))}
+      </div>
+
+      <Label>The headline number (overall progress)</Label>
+      <p style={{ ...pText, marginBottom: 10 }}>
+        The big percentage on the Overview page is a <b>weight-adjusted average</b> of every live promise's progress.
+        In plain terms: multiply each promise's progress by its weight, add those up, then divide by the total
+        weight of all live promises.
+      </p>
+      <div style={{ background: T.greySoft, padding: 14, fontSize: 13, lineHeight: 1.7, marginBottom: 10, fontFamily: "monospace" }}>
+        overall % = Σ (progress × weight) ÷ Σ (weight)
+      </div>
+      <p style={{ ...pText, marginBottom: 22 }}>
+        For example: a HIGH-weight promise (weight 3) at 60% and a LOW-weight promise (weight 1) at 0% combine to
+        (60×3 + 0×1) ÷ (3+1) = <b>45%</b> — not a plain 30% average of the two, because the more important promise
+        pulls harder. Nobody types the headline number in directly; it only moves when an individual promise's
+        progress or weight changes.
+      </p>
+
+      <Label>Category breakdown</Label>
+      <p style={pText}>
+        The "By category" bars on the Progress page use the exact same formula, just scoped to the promises in that
+        category instead of all 18 — so "Infrastructure & Maintenance" at 40% means the weighted average of only the
+        promises tagged under that category.
+      </p>
+
+      <Label>Promises that are "Dropped"</Label>
+      <p style={pText}>
+        A promise marked Dropped is excluded entirely from both the top and bottom of the formula above — it doesn't
+        drag the percentage down as if it failed, but it also can't inflate it. It stays visible on the Manifesto
+        page, clearly labeled, so nothing quietly disappears; it's just not counted as either progress or a shortfall.
+      </p>
+
+      <Label>Stages</Label>
+      <p style={pText}>
+        Each promise's detail page shows a five-stage timeline — Identified, Discussed with authorities, Request
+        submitted, Approved/work started, Delivered. This is a visual read-out of the current status (for example,
+        "Awaiting approval" or "Partly done" both show as the fourth stage), not a separate number — it's there to
+        show roughly how far along the process is, not just the percentage.
+      </p>
+
+      <Label>Updates, evidence, and the audit log</Label>
+      <p style={pText}>
+        Every time an admin changes a promise's status or progress, it's optionally logged as an "Update" on that
+        promise's page (with the before/after progress and status recorded automatically) and always logged in the
+        Admin tab's activity log. Evidence attached to a promise (documents, photos, links) is additional and never
+        factors into the percentage — it's there so a claim of progress can be checked, not so it can inflate the
+        number.
       </p>
     </div>
   );
@@ -992,3 +1061,4 @@ export default function ManifestoPortal() {
     </div>
   );
 }
+
