@@ -790,7 +790,7 @@ function AdminGate({ onAuth }) {
       )}
       {err && <div style={{ color: T.red, fontSize: 12.5, marginTop: 10 }}>{err}</div>}
       <div style={{ fontSize: 11, color: T.inkSoft, marginTop: 16, lineHeight: 1.6 }}>
-        Only a scrambled version of the passcode is stored — never the passcode itself.
+        
       </div>
     </div>
   );
