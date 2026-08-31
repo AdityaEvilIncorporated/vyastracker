@@ -77,6 +77,7 @@ const STATUS = {
   COMPLETED: { label: "Done", symbol: "✓", color: T.green, bg: T.greenSoft, desc: "Delivered." },
   DROPPED: { label: "Dropped", symbol: "✕", color: T.inkSoft, bg: T.greySoft, desc: "Won't be pursued." },
 };
+const WEIGHTS = { LOW: 1, MEDIUM: 2, HIGH: 3, CRITICAL: 4 };
 const STAGES = ["Identified", "Discussed with authorities", "Request submitted", "Approved, work started", "Delivered"];
 const STAGE_INDEX = {
   NOT_STARTED: 0, PROPOSED: 1, IN_PROGRESS: 2, DELAYED: 2, BLOCKED: 2,
@@ -95,8 +96,8 @@ const REP = {
   verifiedDate: "2026-08-25",
 };
 
-const seedPoint = (id, category, title, priority, status = "NOT_STARTED", progress = 0) => ({
-  id, category, title, original: title, priority, status, progress,
+const seedPoint = (id, category, title, weight, priority, status = "NOT_STARTED", progress = 0) => ({
+  id, category, title, original: title, weight, priority, status, progress,
   whyMatters: "", currentSituation: "Not started yet.",
   startDate: null, targetDate: null, completionDate: null,
   responsible: "H-Rep, Vyas Bhawan", externalDependency: null,
@@ -105,31 +106,31 @@ const seedPoint = (id, category, title, priority, status = "NOT_STARTED", progre
 });
 
 const SEED_POINTS = [
-  seedPoint("jet-spray-repairs", "Hostel Amenities & Security", "Regular checks and immediate repair of jet sprays, flushes and door locks", "HIGH"),
-  seedPoint("cr-ac-tv", "Hostel Amenities & Security", "Installation of AC in ground floor CR, and a TV in 1st floor CR", "MEDIUM"),
-  seedPoint("water-quality-checks", "Hostel Amenities & Security", "Weekly pH and TDS checks of the water supply to maintain quality standards", "HIGH"),
-  seedPoint("laundromat-table", "Hostel Amenities & Security", "Reorganize and maintain the laundromat table with clearly labeled boundaries for washed and unwashed clothes", "LOW"),
-  seedPoint("first-aid-toolbox", "Hostel Amenities & Security", "Accessible first-aid, toolboxes, and mosquito repellant will be maintained", "HIGH"),
-  seedPoint("night-chowki", "Hostel Amenities & Security", "Deployment of a night chowki at the entrance to enhance resident safety and prevent stray animals from entering the corridors", "CRITICAL"),
+  seedPoint("jet-spray-repairs", "Hostel Amenities & Security", "Regular checks and immediate repair of jet sprays, flushes and door locks", WEIGHTS.HIGH, "HIGH"),
+  seedPoint("cr-ac-tv", "Hostel Amenities & Security", "Installation of AC in ground floor CR, and a TV in 1st floor CR", WEIGHTS.MEDIUM, "MEDIUM"),
+  seedPoint("water-quality-checks", "Hostel Amenities & Security", "Weekly pH and TDS checks of the water supply to maintain quality standards", WEIGHTS.HIGH, "HIGH"),
+  seedPoint("laundromat-table", "Hostel Amenities & Security", "Reorganize and maintain the laundromat table with clearly labeled boundaries for washed and unwashed clothes", WEIGHTS.LOW, "LOW"),
+  seedPoint("first-aid-toolbox", "Hostel Amenities & Security", "Accessible first-aid, toolboxes, and mosquito repellant will be maintained", WEIGHTS.HIGH, "HIGH"),
+  seedPoint("night-chowki", "Hostel Amenities & Security", "Deployment of a night chowki at the entrance to enhance resident safety and prevent stray animals from entering the corridors", WEIGHTS.HIGH, "CRITICAL"),
 
-  seedPoint("wifi-dead-zones", "Infrastructure & Maintenance", "Map network dead zones and facilitate the installation of Wi-Fi extenders", "HIGH"),
-  seedPoint("water-tank-insulation", "Infrastructure & Maintenance", "Water tank insulation to control the temperature during summers", "MEDIUM"),
-  seedPoint("stone-ledges", "Infrastructure & Maintenance", "Installation of stone ledges in washroom cubicles", "LOW"),
-  seedPoint("cycle-stands", "Infrastructure & Maintenance", "Installation of cycle stands to make space for walking by without any hassle", "MEDIUM"),
-  seedPoint("washroom-night-lights", "Infrastructure & Maintenance", "Installation of permanent switch-operated night lights in all washrooms to avoid blackout from sensor inactivity", "MEDIUM"),
-  seedPoint("water-softeners", "Infrastructure & Maintenance", "Explore the potential of installation of water softeners", "LOW"),
+  seedPoint("wifi-dead-zones", "Infrastructure & Maintenance", "Map network dead zones and facilitate the installation of Wi-Fi extenders", WEIGHTS.MEDIUM, "HIGH"),
+  seedPoint("water-tank-insulation", "Infrastructure & Maintenance", "Water tank insulation to control the temperature during summers", WEIGHTS.MEDIUM, "MEDIUM"),
+  seedPoint("stone-ledges", "Infrastructure & Maintenance", "Installation of stone ledges in washroom cubicles", WEIGHTS.LOW, "LOW"),
+  seedPoint("cycle-stands", "Infrastructure & Maintenance", "Installation of cycle stands to make space for walking by without any hassle", WEIGHTS.MEDIUM, "MEDIUM"),
+  seedPoint("washroom-night-lights", "Infrastructure & Maintenance", "Installation of permanent switch-operated night lights in all washrooms to avoid blackout from sensor inactivity", WEIGHTS.MEDIUM, "MEDIUM"),
+  seedPoint("water-softeners", "Infrastructure & Maintenance", "Explore the potential of installation of water softeners", WEIGHTS.LOW, "LOW"),
 
-  seedPoint("auto-rickshaw-service", "Student Convenience & Vendor Perks", "Arrange a scheduled daily auto-rickshaw service stationed outside Vyas Bhawan (7:45–7:55 AM, and 1:55 PM)", "MEDIUM"),
-  seedPoint("vending-machine-form", "Student Convenience & Vendor Perks", "Weekly Google Form to collect preference for vending machine refills", "LOW"),
+  seedPoint("auto-rickshaw-service", "Student Convenience & Vendor Perks", "Arrange a scheduled daily auto-rickshaw service stationed outside Vyas Bhawan (7:45–7:55 AM, and 1:55 PM)", WEIGHTS.MEDIUM, "MEDIUM"),
+  seedPoint("vending-machine-form", "Student Convenience & Vendor Perks", "Weekly Google Form to collect preference for vending machine refills", WEIGHTS.LOW, "LOW"),
 
   seedPoint(
     "progress-portal", "Transparency, Community & Logistics",
     'Launch a live "Progress Portal" to publicly track the status and percentage completion of manifesto points, ongoing complaints and initiatives',
-    "CRITICAL", "COMPLETED", 100
+    WEIGHTS.HIGH, "CRITICAL", "COMPLETED", 100
   ),
-  seedPoint("whatsapp-complaints", "Transparency, Community & Logistics", "Establish a dedicated WhatsApp group for complaints with a guaranteed 24-hour action initiation from the H-Rep side", "HIGH"),
-  seedPoint("sports-gaming-weeks", "Transparency, Community & Logistics", "Organize dedicated Sports and Gaming weeks along with the Hostel Night to foster hostel unity", "MEDIUM"),
-  seedPoint("trunk-transfer-service", "Transparency, Community & Logistics", "Arrange a streamlined, low-cost intra-hostel transfer service for trunks during year-end shifting", "LOW"),
+  seedPoint("whatsapp-complaints", "Transparency, Community & Logistics", "Establish a dedicated WhatsApp group for complaints with a guaranteed 24-hour action initiation from the H-Rep side", WEIGHTS.HIGH, "HIGH"),
+  seedPoint("sports-gaming-weeks", "Transparency, Community & Logistics", "Organize dedicated Sports and Gaming weeks along with the Hostel Night to foster hostel unity", WEIGHTS.MEDIUM, "MEDIUM"),
+  seedPoint("trunk-transfer-service", "Transparency, Community & Logistics", "Arrange a streamlined, low-cost intra-hostel transfer service for trunks during year-end shifting", WEIGHTS.LOW, "LOW"),
 ];
 SEED_POINTS.find((p) => p.id === "progress-portal").completionDate = REP.verifiedDate;
 SEED_POINTS.find((p) => p.id === "progress-portal").currentSituation = "You're looking at it.";
@@ -612,6 +613,9 @@ function AboutPage() {
 }
 
 function MethodologyPage() {
+  const weightRows = [
+    ["LOW", WEIGHTS.LOW], ["MEDIUM", WEIGHTS.MEDIUM], ["HIGH", WEIGHTS.HIGH], ["CRITICAL", WEIGHTS.CRITICAL],
+  ];
   return (
     <div style={{ maxWidth: 620 }}>
       <Heading sub="Every number on this site is calculated the same way, every time. Here's exactly how.">How this works</Heading>
@@ -634,24 +638,41 @@ function MethodologyPage() {
         see exactly when and by how much it moved.
       </p>
 
+      <Label>Weight — how much each promise counts</Label>
+      <p style={{ ...pText, marginBottom: 14 }}>
+        Every promise is assigned one of four weights when it's added, based on how much it matters relative to the
+        others. This is what stops one trivial promise (like relabeling a laundromat table) from counting as much as
+        a critical one (like night security).
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 22, maxWidth: 260 }}>
+        {weightRows.map(([label, val]) => (
+          <div key={label} style={{ display: "flex", justifyContent: "space-between", fontSize: 13, borderBottom: `1px solid ${T.line}`, paddingBottom: 5 }}>
+            <span style={{ color: T.inkSoft }}>{label}</span>
+            <span>weight = {val}</span>
+          </div>
+        ))}
+      </div>
+
       <Label>The headline number (overall progress)</Label>
       <p style={{ ...pText, marginBottom: 10 }}>
-        The big percentage on the Overview page is a <b>plain average</b> of every live promise's progress. Every
-        promise counts exactly the same — there's no weighting by importance, so a small promise and a critical one
-        move the number by the same amount.
+        The big percentage on the Overview page is a <b>weight-adjusted average</b> of every live promise's progress.
+        In plain terms: multiply each promise's progress by its weight, add those up, then divide by the total
+        weight of all live promises.
       </p>
       <div style={{ background: T.greySoft, padding: 14, fontSize: 13, lineHeight: 1.7, marginBottom: 10, fontFamily: "monospace" }}>
-        overall % = Σ (progress) ÷ (number of live promises)
+        overall % = Σ (progress × weight) ÷ Σ (weight)
       </div>
       <p style={{ ...pText, marginBottom: 22 }}>
-        For example: one promise at 60% and one at 0% combine to (60 + 0) ÷ 2 = <b>30%</b>. Nobody types the
-        headline number in directly; it only moves when an individual promise's progress changes.
+        For example: a HIGH-weight promise (weight 3) at 60% and a LOW-weight promise (weight 1) at 0% combine to
+        (60×3 + 0×1) ÷ (3+1) = <b>45%</b> — not a plain 30% average of the two, because the more important promise
+        pulls harder. Nobody types the headline number in directly; it only moves when an individual promise's
+        progress or weight changes.
       </p>
 
       <Label>Category breakdown</Label>
       <p style={pText}>
         The "By category" bars on the Progress page use the exact same formula, just scoped to the promises in that
-        category instead of all 18 — so "Infrastructure & Maintenance" at 40% means the plain average of only the
+        category instead of all 18 — so "Infrastructure & Maintenance" at 40% means the weighted average of only the
         promises tagged under that category.
       </p>
 
