@@ -1,6 +1,7 @@
 import storage from "./storage.js";
+import repPhoto from "./assets/rep-photo.jpg";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Search, ChevronLeft, Lock, Sun, Moon } from "lucide-react";
+import { Search, ChevronLeft, Lock, Sun, Moon, Menu, X, Phone, Mail } from "lucide-react";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
 } from "recharts";
@@ -95,6 +96,17 @@ const REP = {
   verifiedDate: "2026-08-25",
 };
 
+const CONTACT = {
+  phoneDisplay: "+91 83196 66158",
+  phoneHref: "+918319666158",
+  email: "f20250917@pilani.bits-pilani.ac.in",
+};
+
+// The date this portal itself went live — separate from REP.verifiedDate,
+// which is when the underlying manifesto was verified by the Election
+// Commission. Update this if the portal is relaunched.
+const PORTAL_LAUNCH_DATE = "2026-08-31";
+
 const seedPoint = (id, category, title, status = "NOT_STARTED", progress = 0) => ({
   id, category, title, original: title, status, progress,
   whyMatters: "", currentSituation: "Not started yet.",
@@ -131,19 +143,19 @@ const SEED_POINTS = [
   seedPoint("sports-gaming-weeks", "Transparency, Community & Logistics", "Organize dedicated Sports and Gaming weeks along with the Hostel Night to foster hostel unity"),
   seedPoint("trunk-transfer-service", "Transparency, Community & Logistics", "Arrange a streamlined, low-cost intra-hostel transfer service for trunks during year-end shifting"),
 ];
-SEED_POINTS.find((p) => p.id === "progress-portal").completionDate = REP.verifiedDate;
+SEED_POINTS.find((p) => p.id === "progress-portal").completionDate = PORTAL_LAUNCH_DATE;
 SEED_POINTS.find((p) => p.id === "progress-portal").currentSituation = "You're looking at it.";
 SEED_POINTS.find((p) => p.id === "progress-portal").evidence = [
-  { id: "e1", title: "This page", type: "External link", date: REP.verifiedDate, description: "The site you're viewing is the delivered evidence for this one." },
+  { id: "e1", title: "This page", type: "External link", date: PORTAL_LAUNCH_DATE, description: "The site you're viewing is the delivered evidence for this one." },
 ];
 SEED_POINTS.find((p) => p.id === "progress-portal").updates = [
-  { id: "u1", date: REP.verifiedDate, title: "Portal published", body: "The tracking site went live, covering all 18 manifesto points for Vyas Bhawan.", progressBefore: 0, progressAfter: 100, statusBefore: "NOT_STARTED", statusAfter: "COMPLETED", author: "Raman Gupta", evidence: [] },
+  { id: "u1", date: PORTAL_LAUNCH_DATE, title: "Portal published", body: "The tracking site went live, covering all 18 manifesto points for Vyas Bhawan.", progressBefore: 0, progressAfter: 100, statusBefore: "NOT_STARTED", statusAfter: "COMPLETED", author: "Raman Gupta", evidence: [] },
 ];
 
 const CATEGORIES = [...new Set(SEED_POINTS.map((p) => p.category))];
 const TERM_EVENTS = [
   { date: REP.verifiedDate, label: "Manifesto verified by the Election Commission" },
-  { date: REP.verifiedDate, label: "This portal went live" },
+  { date: PORTAL_LAUNCH_DATE, label: "This portal went live" },
 ];
 
 /* ----------------------------------------------------------------------- */
@@ -596,15 +608,51 @@ function IssuesPage({ points, onOpen }) {
 }
 
 function AboutPage() {
+  const contactLinkStyle = {
+    display: "flex", alignItems: "center", gap: 10, color: T.ink, textDecoration: "none",
+    fontSize: 14, border: `1px solid ${T.line}`, padding: "10px 14px", width: "fit-content",
+  };
   return (
-    <div style={{ maxWidth: 560 }}>
+    <div style={{ maxWidth: 620 }}>
       <Heading>About</Heading>
-      <p style={pText}>
-        {REP.name} ({REP.id}) is the {REP.role} of {REP.hostel}. This manifesto was verified by the {REP.verifiedBy} on {fmtDate(REP.verifiedDate)}.
-      </p>
-      <p style={{ ...pText, marginTop: 12 }}>
-        This site is one of the promises — a public tracker for the other 17.
-      </p>
+      <div style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-start", marginBottom: 30 }}>
+        <img
+          src={repPhoto}
+          alt={REP.name}
+          style={{
+            width: 148, height: 148, objectFit: "cover", flexShrink: 0,
+            border: `1px solid ${T.line}`, background: T.greySoft,
+          }}
+        />
+        <div style={{ flex: "1 1 280px", minWidth: 220 }}>
+          <p style={pText}>
+            {REP.name} ({REP.id}) is the {REP.role} of {REP.hostel}. This manifesto was verified by the {REP.verifiedBy} on {fmtDate(REP.verifiedDate)}.
+          </p>
+          <p style={{ ...pText, marginTop: 12 }}>
+            This site is one of the promises — a public tracker for the other 17.
+          </p>
+        </div>
+      </div>
+
+      <Label>Contact</Label>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <a
+          href={`tel:${CONTACT.phoneHref}`}
+          style={contactLinkStyle}
+          onMouseEnter={(e) => (e.currentTarget.style.borderColor = T.lineStrong)}
+          onMouseLeave={(e) => (e.currentTarget.style.borderColor = T.line)}
+        >
+          <Phone size={15} color={T.navy} /> {CONTACT.phoneDisplay}
+        </a>
+        <a
+          href={`mailto:${CONTACT.email}`}
+          style={contactLinkStyle}
+          onMouseEnter={(e) => (e.currentTarget.style.borderColor = T.lineStrong)}
+          onMouseLeave={(e) => (e.currentTarget.style.borderColor = T.line)}
+        >
+          <Mail size={15} color={T.navy} /> {CONTACT.email}
+        </a>
+      </div>
     </div>
   );
 }
@@ -889,6 +937,44 @@ const TABS = [
   ["about", "About"], ["methodology", "How this works"],
 ];
 
+function NavButton({ active, onClick, children, compact, underline }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        background: active && !compact ? T.navySoft : "none",
+        border: "none",
+        color: active ? T.navy : T.inkSoft,
+        fontSize: compact ? 14.5 : 12.5,
+        padding: compact ? "12px 14px" : "7px 9px",
+        cursor: "pointer",
+        textAlign: compact ? "left" : "center",
+        width: compact ? "100%" : "auto",
+        borderRadius: compact ? 4 : 0,
+        textDecoration: underline ? "underline" : "none",
+        textUnderlineOffset: 3,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function NavLinks({ tab, selectedPoint, goTab, compact }) {
+  return (
+    <>
+      {TABS.map(([k, label]) => (
+        <NavButton key={k} active={tab === k && !selectedPoint} onClick={() => goTab(k)} compact={compact}>
+          {label}
+        </NavButton>
+      ))}
+      <NavButton active={tab === "admin"} onClick={() => goTab("admin")} compact={compact} underline={!compact}>
+        Admin
+      </NavButton>
+    </>
+  );
+}
+
 export default function ManifestoPortal() {
   const [points, setPoints] = useState(SEED_POINTS);
   const [auditLog, setAuditLog] = useState([]);
@@ -899,6 +985,8 @@ export default function ManifestoPortal() {
   const [loaded, setLoaded] = useState(false);
   const [theme, setTheme] = useState("light");
   const [saveError, setSaveError] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isCompactNav = useIsMobile(760);
 
   const logAudit = useCallback((text) => setAuditLog((prev) => [...prev, { date: todayISO(), text }]), []);
 
@@ -950,7 +1038,7 @@ export default function ManifestoPortal() {
 
   const openPoint = (id) => setSelectedPoint(id);
   const pointObj = points.find((p) => p.id === selectedPoint);
-  const goTab = (t) => { setTab(t); setSelectedPoint(null); };
+  const goTab = (t) => { setTab(t); setSelectedPoint(null); setMenuOpen(false); };
 
   let body;
   if (selectedPoint && pointObj) body = <ManifestoDetail point={pointObj} onBack={() => setSelectedPoint(null)} />;
@@ -995,35 +1083,52 @@ export default function ManifestoPortal() {
         @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
       `}</style>
 
-      <header style={{ borderBottom: `1px solid ${T.line}`, background: T.panel, position: "sticky", top: 0, zIndex: 10 }}>
-        <div style={{ maxWidth: 940, margin: "0 auto", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+      <header style={{ borderBottom: `1px solid ${T.line}`, background: T.panel, position: "sticky", top: 0, zIndex: 20 }}>
+        <div style={{ maxWidth: 940, margin: "0 auto", padding: "12px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
           <div onClick={() => goTab("overview")} style={{ cursor: "pointer", fontFamily: "'Source Serif 4', serif", fontSize: 17, fontWeight: 600 }}>
             {REP.hostel} Manifesto
           </div>
-          <nav style={{ display: "flex", gap: 2, flexWrap: "wrap", alignItems: "center" }}>
-            {TABS.map(([k, label]) => (
-              <button key={k} onClick={() => goTab(k)} style={{
-                background: tab === k && !selectedPoint ? T.navySoft : "none", border: "none",
-                color: tab === k && !selectedPoint ? T.navy : T.inkSoft, fontSize: 12.5, padding: "7px 9px", cursor: "pointer",
+
+          {isCompactNav ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <button onClick={toggleTheme} aria-label="Toggle dark mode" style={{
+                background: "none", border: `1px solid ${T.line}`, color: T.inkSoft,
+                width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
               }}>
-                {label}
+                {theme === "light" ? <Moon size={15} /> : <Sun size={15} />}
               </button>
-            ))}
-            <button onClick={() => goTab("admin")} style={{
-              background: "none", border: "none", color: tab === "admin" ? T.navy : T.inkSoft,
-              fontSize: 12.5, padding: "7px 9px", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3,
-            }}>
-              Admin
-            </button>
-            <button onClick={toggleTheme} aria-label="Toggle dark mode" style={{
-              background: "none", border: `1px solid ${T.line}`, color: T.inkSoft,
-              width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer", marginLeft: 6,
-            }}>
-              {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
-            </button>
-          </nav>
+              <button
+                onClick={() => setMenuOpen((v) => !v)}
+                aria-label="Toggle menu"
+                aria-expanded={menuOpen}
+                style={{
+                  background: menuOpen ? T.navySoft : "none", border: `1px solid ${T.line}`,
+                  color: menuOpen ? T.navy : T.ink, width: 36, height: 36,
+                  display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+                }}
+              >
+                {menuOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
+            </div>
+          ) : (
+            <nav style={{ display: "flex", gap: 2, flexWrap: "wrap", alignItems: "center" }}>
+              <NavLinks tab={tab} selectedPoint={selectedPoint} goTab={goTab} />
+              <button onClick={toggleTheme} aria-label="Toggle dark mode" style={{
+                background: "none", border: `1px solid ${T.line}`, color: T.inkSoft,
+                width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer", marginLeft: 6,
+              }}>
+                {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+              </button>
+            </nav>
+          )}
         </div>
+
+        {isCompactNav && menuOpen && (
+          <nav style={{ borderTop: `1px solid ${T.line}`, padding: "6px 20px 14px", display: "flex", flexDirection: "column", gap: 2, maxWidth: 940, margin: "0 auto" }}>
+            <NavLinks tab={tab} selectedPoint={selectedPoint} goTab={goTab} compact />
+          </nav>
+        )}
       </header>
 
       <main style={{ maxWidth: 940, margin: "0 auto", padding: "30px 20px 70px" }}>
