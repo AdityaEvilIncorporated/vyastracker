@@ -21,13 +21,13 @@ const THEME_CSS = `
     --bg: #F6F4EE; --panel: #FFFFFF; --ink: #20242A; --inkSoft: #6B6E64;
     --line: #DCD7C9; --lineStrong: #B9B29B; --navy: #2158D6; --navySoft: #E3EDFC;
     --amber: #E2900A; --amberSoft: #FCECC9; --green: #189A57; --greenSoft: #DBF3E5;
-    --red: #E23B30; --redSoft: #FBDFDA; --grey: #7C8074; --greySoft: #ECEAE0;
+    --red: #E23B30; --redSoft: #FBDFDA; --grey: #545C6B; --greySoft: #E7E9EE;
   }
   .mp-root[data-theme='dark'] {
     --bg: #15181C; --panel: #1B1F24; --ink: #ECEDE7; --inkSoft: #9A9D95;
     --line: #2E333A; --lineStrong: #454B52; --navy: #5B9DFF; --navySoft: #1B2A45;
     --amber: #FFB443; --amberSoft: #3A2A0E; --green: #3FDB8F; --greenSoft: #123324;
-    --red: #FF6259; --redSoft: #3B1E1B; --grey: #A7AA9F; --greySoft: #23272D;
+    --red: #FF6259; --redSoft: #3B1E1B; --grey: #C4C8D2; --greySoft: #262B33;
   }
 `;
 
