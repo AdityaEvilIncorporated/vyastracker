@@ -5,10 +5,6 @@ import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
 } from "recharts";
 
-/* ----------------------------------------------------------------------- */
-/* Design tokens — values live in CSS custom properties so light/dark can  */
-/* swap without touching any component.                                   */
-/* ----------------------------------------------------------------------- */
 const T = {
   bg: "var(--bg)", panel: "var(--panel)", ink: "var(--ink)", inkSoft: "var(--inkSoft)",
   line: "var(--line)", lineStrong: "var(--lineStrong)", navy: "var(--navy)", navySoft: "var(--navySoft)",
@@ -939,12 +935,12 @@ export default function ManifestoPortal() {
   }
 
   return (
-    <div className="mp-root" data-theme={theme} style={{ background: T.bg, minHeight: "100%", color: T.ink, fontFamily: "'IBM Plex Sans', sans-serif" }}>
+    <div className="mp-root" data-theme={theme} style={{ background: T.bg, minHeight: "100vh", color: T.ink, fontFamily: "'IBM Plex Sans', sans-serif" }}>
       <style>{`
         ${FONT_IMPORT}
         ${THEME_CSS}
         * { box-sizing: border-box; }
-        html, body, #root { margin: 0; max-width: 100%; overflow-x: hidden; }
+        html, body, #root { margin: 0; max-width: 100%; min-height: 100%; overflow-x: hidden; }
         img, svg { max-width: 100%; }
         input, select, textarea { max-width: 100%; }
         input:focus, select:focus, textarea:focus, button:focus { outline: 2px solid ${T.navy}; outline-offset: 1px; }
