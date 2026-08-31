@@ -18,16 +18,16 @@ const T = {
 
 const THEME_CSS = `
   .mp-root {
-    --bg: #F6F4EE; --panel: #FFFFFF; --ink: #20242A; --inkSoft: #6B6E64;
-    --line: #DCD7C9; --lineStrong: #B9B29B; --navy: #2158D6; --navySoft: #E3EDFC;
-    --amber: #E2900A; --amberSoft: #FCECC9; --green: #189A57; --greenSoft: #DBF3E5;
-    --red: #E23B30; --redSoft: #FBDFDA; --grey: #545C6B; --greySoft: #E7E9EE;
+    --bg: #FFFFFF; --panel: #FFFFFF; --ink: #14161A; --inkSoft: #565B66;
+    --line: #E4E7EE; --lineStrong: #C7CCDA; --navy: #155EFF; --navySoft: #E3EDFF;
+    --amber: #FF9500; --amberSoft: #FFF0D6; --green: #00B85C; --greenSoft: #D8FBE6;
+    --red: #FF3B30; --redSoft: #FFE1DE; --grey: #5B6272; --greySoft: #EEF0F5;
   }
   .mp-root[data-theme='dark'] {
-    --bg: #15181C; --panel: #1B1F24; --ink: #ECEDE7; --inkSoft: #9A9D95;
-    --line: #2E333A; --lineStrong: #454B52; --navy: #5B9DFF; --navySoft: #1B2A45;
-    --amber: #FFB443; --amberSoft: #3A2A0E; --green: #3FDB8F; --greenSoft: #123324;
-    --red: #FF6259; --redSoft: #3B1E1B; --grey: #C4C8D2; --greySoft: #262B33;
+    --bg: #101216; --panel: #181B21; --ink: #F5F6FA; --inkSoft: #A7ACB9;
+    --line: #2A2E38; --lineStrong: #3E4552; --navy: #6E9BFF; --navySoft: #1C2C55;
+    --amber: #FFB443; --amberSoft: #3D2B0A; --green: #35E48F; --greenSoft: #0E3A26;
+    --red: #FF6B60; --redSoft: #3F1815; --grey: #C4C9D6; --greySoft: #232733;
   }
 `;
 
@@ -77,7 +77,6 @@ const STATUS = {
   COMPLETED: { label: "Done", symbol: "✓", color: T.green, bg: T.greenSoft, desc: "Delivered." },
   DROPPED: { label: "Dropped", symbol: "✕", color: T.inkSoft, bg: T.greySoft, desc: "Won't be pursued." },
 };
-const WEIGHTS = { LOW: 1, MEDIUM: 2, HIGH: 3, CRITICAL: 4 };
 const STAGES = ["Identified", "Discussed with authorities", "Request submitted", "Approved, work started", "Delivered"];
 const STAGE_INDEX = {
   NOT_STARTED: 0, PROPOSED: 1, IN_PROGRESS: 2, DELAYED: 2, BLOCKED: 2,
@@ -96,8 +95,8 @@ const REP = {
   verifiedDate: "2026-08-25",
 };
 
-const seedPoint = (id, category, title, weight, priority, status = "NOT_STARTED", progress = 0) => ({
-  id, category, title, original: title, weight, priority, status, progress,
+const seedPoint = (id, category, title, status = "NOT_STARTED", progress = 0) => ({
+  id, category, title, original: title, status, progress,
   whyMatters: "", currentSituation: "Not started yet.",
   startDate: null, targetDate: null, completionDate: null,
   responsible: "H-Rep, Vyas Bhawan", externalDependency: null,
@@ -106,31 +105,31 @@ const seedPoint = (id, category, title, weight, priority, status = "NOT_STARTED"
 });
 
 const SEED_POINTS = [
-  seedPoint("jet-spray-repairs", "Hostel Amenities & Security", "Regular checks and immediate repair of jet sprays, flushes and door locks", WEIGHTS.HIGH, "HIGH"),
-  seedPoint("cr-ac-tv", "Hostel Amenities & Security", "Installation of AC in ground floor CR, and a TV in 1st floor CR", WEIGHTS.MEDIUM, "MEDIUM"),
-  seedPoint("water-quality-checks", "Hostel Amenities & Security", "Weekly pH and TDS checks of the water supply to maintain quality standards", WEIGHTS.HIGH, "HIGH"),
-  seedPoint("laundromat-table", "Hostel Amenities & Security", "Reorganize and maintain the laundromat table with clearly labeled boundaries for washed and unwashed clothes", WEIGHTS.LOW, "LOW"),
-  seedPoint("first-aid-toolbox", "Hostel Amenities & Security", "Accessible first-aid, toolboxes, and mosquito repellant will be maintained", WEIGHTS.HIGH, "HIGH"),
-  seedPoint("night-chowki", "Hostel Amenities & Security", "Deployment of a night chowki at the entrance to enhance resident safety and prevent stray animals from entering the corridors", WEIGHTS.HIGH, "CRITICAL"),
+  seedPoint("jet-spray-repairs", "Hostel Amenities & Security", "Regular checks and immediate repair of jet sprays, flushes and door locks"),
+  seedPoint("cr-ac-tv", "Hostel Amenities & Security", "Installation of AC in ground floor CR, and a TV in 1st floor CR"),
+  seedPoint("water-quality-checks", "Hostel Amenities & Security", "Weekly pH and TDS checks of the water supply to maintain quality standards"),
+  seedPoint("laundromat-table", "Hostel Amenities & Security", "Reorganize and maintain the laundromat table with clearly labeled boundaries for washed and unwashed clothes"),
+  seedPoint("first-aid-toolbox", "Hostel Amenities & Security", "Accessible first-aid, toolboxes, and mosquito repellant will be maintained"),
+  seedPoint("night-chowki", "Hostel Amenities & Security", "Deployment of a night chowki at the entrance to enhance resident safety and prevent stray animals from entering the corridors"),
 
-  seedPoint("wifi-dead-zones", "Infrastructure & Maintenance", "Map network dead zones and facilitate the installation of Wi-Fi extenders", WEIGHTS.MEDIUM, "HIGH"),
-  seedPoint("water-tank-insulation", "Infrastructure & Maintenance", "Water tank insulation to control the temperature during summers", WEIGHTS.MEDIUM, "MEDIUM"),
-  seedPoint("stone-ledges", "Infrastructure & Maintenance", "Installation of stone ledges in washroom cubicles", WEIGHTS.LOW, "LOW"),
-  seedPoint("cycle-stands", "Infrastructure & Maintenance", "Installation of cycle stands to make space for walking by without any hassle", WEIGHTS.MEDIUM, "MEDIUM"),
-  seedPoint("washroom-night-lights", "Infrastructure & Maintenance", "Installation of permanent switch-operated night lights in all washrooms to avoid blackout from sensor inactivity", WEIGHTS.MEDIUM, "MEDIUM"),
-  seedPoint("water-softeners", "Infrastructure & Maintenance", "Explore the potential of installation of water softeners", WEIGHTS.LOW, "LOW"),
+  seedPoint("wifi-dead-zones", "Infrastructure & Maintenance", "Map network dead zones and facilitate the installation of Wi-Fi extenders"),
+  seedPoint("water-tank-insulation", "Infrastructure & Maintenance", "Water tank insulation to control the temperature during summers"),
+  seedPoint("stone-ledges", "Infrastructure & Maintenance", "Installation of stone ledges in washroom cubicles"),
+  seedPoint("cycle-stands", "Infrastructure & Maintenance", "Installation of cycle stands to make space for walking by without any hassle"),
+  seedPoint("washroom-night-lights", "Infrastructure & Maintenance", "Installation of permanent switch-operated night lights in all washrooms to avoid blackout from sensor inactivity"),
+  seedPoint("water-softeners", "Infrastructure & Maintenance", "Explore the potential of installation of water softeners"),
 
-  seedPoint("auto-rickshaw-service", "Student Convenience & Vendor Perks", "Arrange a scheduled daily auto-rickshaw service stationed outside Vyas Bhawan (7:45–7:55 AM, and 1:55 PM)", WEIGHTS.MEDIUM, "MEDIUM"),
-  seedPoint("vending-machine-form", "Student Convenience & Vendor Perks", "Weekly Google Form to collect preference for vending machine refills", WEIGHTS.LOW, "LOW"),
+  seedPoint("auto-rickshaw-service", "Student Convenience & Vendor Perks", "Arrange a scheduled daily auto-rickshaw service stationed outside Vyas Bhawan (7:45–7:55 AM, and 1:55 PM)"),
+  seedPoint("vending-machine-form", "Student Convenience & Vendor Perks", "Weekly Google Form to collect preference for vending machine refills"),
 
   seedPoint(
     "progress-portal", "Transparency, Community & Logistics",
     'Launch a live "Progress Portal" to publicly track the status and percentage completion of manifesto points, ongoing complaints and initiatives',
-    WEIGHTS.HIGH, "CRITICAL", "COMPLETED", 100
+    "COMPLETED", 100
   ),
-  seedPoint("whatsapp-complaints", "Transparency, Community & Logistics", "Establish a dedicated WhatsApp group for complaints with a guaranteed 24-hour action initiation from the H-Rep side", WEIGHTS.HIGH, "HIGH"),
-  seedPoint("sports-gaming-weeks", "Transparency, Community & Logistics", "Organize dedicated Sports and Gaming weeks along with the Hostel Night to foster hostel unity", WEIGHTS.MEDIUM, "MEDIUM"),
-  seedPoint("trunk-transfer-service", "Transparency, Community & Logistics", "Arrange a streamlined, low-cost intra-hostel transfer service for trunks during year-end shifting", WEIGHTS.LOW, "LOW"),
+  seedPoint("whatsapp-complaints", "Transparency, Community & Logistics", "Establish a dedicated WhatsApp group for complaints with a guaranteed 24-hour action initiation from the H-Rep side"),
+  seedPoint("sports-gaming-weeks", "Transparency, Community & Logistics", "Organize dedicated Sports and Gaming weeks along with the Hostel Night to foster hostel unity"),
+  seedPoint("trunk-transfer-service", "Transparency, Community & Logistics", "Arrange a streamlined, low-cost intra-hostel transfer service for trunks during year-end shifting"),
 ];
 SEED_POINTS.find((p) => p.id === "progress-portal").completionDate = REP.verifiedDate;
 SEED_POINTS.find((p) => p.id === "progress-portal").currentSituation = "You're looking at it.";
@@ -153,18 +152,19 @@ const TERM_EVENTS = [
 const fmtDate = (d) => (d ? new Date(d + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "—");
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
+// Every promise counts the same as every other — a plain average of
+// progress across all live (non-dropped) promises. No point is worth more
+// than any other.
 function computeCompletion(points) {
   const live = points.filter((p) => p.status !== "DROPPED");
-  const totalWeight = live.reduce((s, p) => s + p.weight, 0) || 1;
-  const weighted = live.reduce((s, p) => s + p.progress * p.weight, 0);
-  return weighted / totalWeight;
+  if (live.length === 0) return 0;
+  return live.reduce((s, p) => s + p.progress, 0) / live.length;
 }
 function computeCategoryCompletion(points) {
   return CATEGORIES.map((cat) => {
     const pts = points.filter((p) => p.category === cat && p.status !== "DROPPED");
-    const tw = pts.reduce((s, p) => s + p.weight, 0) || 1;
-    const w = pts.reduce((s, p) => s + p.progress * p.weight, 0);
-    return { category: cat, pct: Math.round(w / tw) };
+    const pct = pts.length ? pts.reduce((s, p) => s + p.progress, 0) / pts.length : 0;
+    return { category: cat, pct: Math.round(pct) };
   });
 }
 function statusCounts(points) {
@@ -300,7 +300,6 @@ function ManifestoDetail({ point, onBack }) {
       <h1 style={{ fontFamily: "'Source Serif 4', serif", fontSize: 27, lineHeight: 1.3, margin: "8px 0 14px", color: T.ink }}>{point.title}</h1>
       <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", marginBottom: 20 }}>
         <StatusBadge status={point.status} />
-        <span style={{ fontSize: 12, color: T.inkSoft }}>{point.priority.toLowerCase()} priority</span>
       </div>
       <div style={{ marginBottom: 26 }}>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 6, color: T.inkSoft }}>
@@ -437,7 +436,6 @@ function ManifestoList({ points, onOpen }) {
       (q === "" || p.title.toLowerCase().includes(q.toLowerCase()))
     );
     if (sort === "progress") r = [...r].sort((a, b) => b.progress - a.progress);
-    if (sort === "priority") { const o = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 }; r = [...r].sort((a, b) => o[a.priority] - o[b.priority]); }
     if (sort === "alpha") r = [...r].sort((a, b) => a.title.localeCompare(b.title));
     return r;
   }, [points, q, cat, status, sort]);
@@ -461,7 +459,6 @@ function ManifestoList({ points, onOpen }) {
         <select value={sort} onChange={(e) => setSort(e.target.value)} style={inputStyle}>
           <option value="recent">Default order</option>
           <option value="progress">By progress</option>
-          <option value="priority">By priority</option>
           <option value="alpha">A–Z</option>
         </select>
       </div>
@@ -613,9 +610,6 @@ function AboutPage() {
 }
 
 function MethodologyPage() {
-  const weightRows = [
-    ["LOW", WEIGHTS.LOW], ["MEDIUM", WEIGHTS.MEDIUM], ["HIGH", WEIGHTS.HIGH], ["CRITICAL", WEIGHTS.CRITICAL],
-  ];
   return (
     <div style={{ maxWidth: 620 }}>
       <Heading sub="Every number on this site is calculated the same way, every time. Here's exactly how.">How this works</Heading>
@@ -638,41 +632,32 @@ function MethodologyPage() {
         see exactly when and by how much it moved.
       </p>
 
-      <Label>Weight — how much each promise counts</Label>
+      <Label>Every promise counts the same</Label>
       <p style={{ ...pText, marginBottom: 14 }}>
-        Every promise is assigned one of four weights when it's added, based on how much it matters relative to the
-        others. This is what stops one trivial promise (like relabeling a laundromat table) from counting as much as
-        a critical one (like night security).
+        There's no weighting and no priority ranking here. A promise about relabeling the laundromat table counts
+        exactly as much toward the headline number as one about night security. Nothing on the manifesto is treated
+        as more or less important than anything else — the H-Rep made 18 promises, and all 18 are held to the same
+        standard.
       </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 22, maxWidth: 260 }}>
-        {weightRows.map(([label, val]) => (
-          <div key={label} style={{ display: "flex", justifyContent: "space-between", fontSize: 13, borderBottom: `1px solid ${T.line}`, paddingBottom: 5 }}>
-            <span style={{ color: T.inkSoft }}>{label}</span>
-            <span>weight = {val}</span>
-          </div>
-        ))}
-      </div>
 
       <Label>The headline number (overall progress)</Label>
       <p style={{ ...pText, marginBottom: 10 }}>
-        The big percentage on the Overview page is a <b>weight-adjusted average</b> of every live promise's progress.
-        In plain terms: multiply each promise's progress by its weight, add those up, then divide by the total
-        weight of all live promises.
+        The big percentage on the Overview page is a <b>plain average</b> of every live promise's progress: add up
+        each promise's progress and divide by how many live promises there are.
       </p>
       <div style={{ background: T.greySoft, padding: 14, fontSize: 13, lineHeight: 1.7, marginBottom: 10, fontFamily: "monospace" }}>
-        overall % = Σ (progress × weight) ÷ Σ (weight)
+        overall % = Σ (progress) ÷ (number of live promises)
       </div>
       <p style={{ ...pText, marginBottom: 22 }}>
-        For example: a HIGH-weight promise (weight 3) at 60% and a LOW-weight promise (weight 1) at 0% combine to
-        (60×3 + 0×1) ÷ (3+1) = <b>45%</b> — not a plain 30% average of the two, because the more important promise
-        pulls harder. Nobody types the headline number in directly; it only moves when an individual promise's
-        progress or weight changes.
+        For example: a promise at 60% and a promise at 0% combine to (60 + 0) ÷ 2 = <b>30%</b> — a straightforward
+        average, nothing more. Nobody types the headline number in directly; it only moves when an individual
+        promise's progress changes.
       </p>
 
       <Label>Category breakdown</Label>
       <p style={pText}>
         The "By category" bars on the Progress page use the exact same formula, just scoped to the promises in that
-        category instead of all 18 — so "Infrastructure & Maintenance" at 40% means the weighted average of only the
+        category instead of all 18 — so "Infrastructure & Maintenance" at 40% means the plain average of only the
         promises tagged under that category.
       </p>
 
@@ -825,16 +810,6 @@ function AdminPanel({ points, setPoints, logAudit }) {
         <FieldRow label="Progress">
           <input type="range" min={0} max={100} value={form.progress} onChange={(e) => updatePoint({ progress: Number(e.target.value) })} style={{ width: "100%", maxWidth: 200 }} />
           <span style={{ marginLeft: 10, fontSize: 13 }}>{form.progress}%</span>
-        </FieldRow>
-        <FieldRow label="Priority">
-          <select value={form.priority} onChange={(e) => updatePoint({ priority: e.target.value })} style={inputStyle}>
-            {["LOW", "MEDIUM", "HIGH", "CRITICAL"].map((p) => <option key={p} value={p}>{p}</option>)}
-          </select>
-        </FieldRow>
-        <FieldRow label="Weight">
-          <select value={form.weight} onChange={(e) => updatePoint({ weight: Number(e.target.value) })} style={inputStyle}>
-            {Object.entries(WEIGHTS).map(([k, v]) => <option key={k} value={v}>{k}</option>)}
-          </select>
         </FieldRow>
         <FieldRow label="Target date">
           <input type="date" value={form.targetDate || ""} onChange={(e) => updatePoint({ targetDate: e.target.value })} style={inputStyle} />
